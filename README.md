@@ -209,20 +209,9 @@ These rules can be expanded if needed.
 
 ### 8.1 Interaction Diagram
 
-```
-Test Program              Task Categorizer Microservice
-     |                               |
-     | POST /organize (JSON)         |
-     |------------------------------->|
-     |                               |
-     |   Process tasks               |
-     |   Categorize expenses         |
-     |   Group data                  |
-     |                               |
-     |<-------------------------------|
-     |   Return JSON response        |
-     |                               |
-```
+The following sequence diagram illustrates how data is requested and received.
+
+![UML Sequence Diagram](uml_sequence_diagram.png)
 
 ### 8.2 Step-by-Step Flow
 
