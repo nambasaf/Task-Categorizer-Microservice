@@ -1,68 +1,69 @@
-Task & Expense Categorizer Microservice
-Overview
+# Task & Expense Categorizer Microservice
 
-This microservice is part of a larger TODO + Budgeting Application.
+---
+
+## 1. Overview
+
+This microservice is part of a larger **TODO + Budgeting Application**.
 
 It is responsible for:
 
-Categorizing expenditures automatically based on description keywords
+- Categorizing expenditures automatically based on description keywords
+- Organizing tasks by category
+- Filtering tasks and expenses by a specified category
+- Returning structured JSON data to the requesting program
 
-Organizing tasks by category
+This microservice communicates via a **REST API** and is independently testable.
 
-Filtering tasks and expenses by a specified category
+---
 
-Returning structured JSON data to the requesting program
-
-This microservice communicates via a REST API and is independently testable.
-
-What This Microservice Does
+## 2. What This Microservice Does
 
 This microservice:
 
-Accepts tasks and/or expenses as JSON input
+- Accepts tasks and/or expenses as JSON input
+- Automatically categorizes expenses (e.g., Food, Rent, Transportation, Entertainment)
+- Groups tasks and expenses by category
+- Optionally filters results by a specific category
+- Returns organized data in structured JSON format
 
-Automatically categorizes expenses (e.g., Food, Rent, Transportation, Entertainment)
+This service does **not** depend on other microservices and runs independently.
 
-Groups tasks and expenses by category
+---
 
-Optionally filters results by a specific category
+## 3. How to Run the Microservice
 
-Returns organized data in structured JSON format
+### 3.1 Requirements
 
-This service does not depend on other microservices and runs independently.
+- Python 3.x
+- Flask
 
-How to Run the Microservice
-Requirements
+### 3.2 Install Dependencies
 
-Python 3.x
-
-Flask
-
-Install dependencies:
 
 pip install -r requirements.txt
 
-Start the server:
-
+3.3 Start the Server
 python app.py
+3.4 Server Address
 
 The microservice runs on:
 
 http://127.0.0.1:5003
-Communication Contract
+4. Communication Contract
 
 ⚠️ Once defined, this contract must not change.
 
 All teammates must follow this exact format when calling the microservice.
 
-How to Programmatically REQUEST Data
-Endpoint
+5. How to Programmatically REQUEST Data
+5.1 Endpoint
 POST /organize
-Full URL
+5.2 Full URL
 http://127.0.0.1:5003/organize
-Request Headers
+5.3 Request Headers
 Content-Type: application/json
-Request Body Format (JSON)
+5.4 Request Body Format (JSON)
 {
   "tasks": [
     {
@@ -79,12 +80,13 @@ Request Body Format (JSON)
   "filter_category": "string (optional)"
 }
 
-Request Parameters
+5.5 Request Parameters
 Parameter	Type	Required	Description
 tasks	JSON array	No	List of task objects
 expenses	JSON array	No	List of expense objects
-filter_category	string	No	If provided, results are filtered by this category
-Example Request (Python)
+filter_category	string	No	Filters results by this category
+
+5.6 Example Request (Python)
 import requests
 
 url = "http://127.0.0.1:5003/organize"
@@ -102,13 +104,12 @@ payload = {
 }
 
 response = requests.post(url, json=payload)
-
 print(response.json())
-How to Programmatically RECEIVE Data
+6. How to Programmatically RECEIVE Data
 
 The microservice returns a JSON response.
 
-Response Format
+6.1 Response Format
 {
   "status": "success",
   "categorized_data": {
@@ -118,11 +119,11 @@ Response Format
     }
   }
 }
-Response Fields
+6.2 Response Fields
 Field	Type	Description
-status	string	"success" if request processed
-categorized_data	JSON object	Grouped tasks and expenses by category
-Example Response
+status	string	"success" if processed correctly
+categorized_data	JSON object	Grouped tasks and expenses
+6.3 Example Response
 {
   "status": "success",
   "categorized_data": {
@@ -136,7 +137,7 @@ Example Response
     }
   }
 }
-Expense Categorization Rules
+7. Expense Categorization Rules
 
 The microservice uses keyword-based categorization:
 
@@ -147,11 +148,10 @@ rent	Rent
 netflix	Entertainment
 other	Other
 
-These rules can be expanded if needed.
+These rules may be expanded if needed.
 
-UML Sequence Diagram
-
-Below is the sequence of interactions between a test program and the microservice:
+8. UML Sequence Diagram
+8.1 Interaction Diagram
 
 Test Program              Task Categorizer Microservice
      |                               |
@@ -165,11 +165,13 @@ Test Program              Task Categorizer Microservice
      |<-------------------------------|
      |   Return JSON response        |
      |                               |
-Step-by-Step Flow
+
+
+8.2 Step-by-Step Flow
 
 The test program sends an HTTP POST request to /organize.
 
-The microservice receives and parses JSON data.
+The microservice receives and parses JSON input.
 
 Tasks are grouped by category.
 
@@ -181,23 +183,23 @@ The microservice returns structured JSON.
 
 The test program receives and prints the response.
 
-Test Program
+9. Test Program
 
-A small test program (test_program.py) is included to demonstrate:
+A small test program (test_program.py) demonstrates:
 
-How to call the microservice
+Programmatic request to the microservice
 
-How to send JSON data
+JSON data being sent
 
-How to receive and print the response
+JSON response being received
 
 Run:
 
 python test_program.py
 
-This demonstrates independent functionality as required by the assignment.
+This confirms the microservice functions independently.
 
-Microservice Independence
+10. Microservice Independence
 
 This microservice:
 
@@ -209,48 +211,43 @@ Communicates strictly via HTTP
 
 Can be tested independently
 
-Video Demonstration Requirements
+11. Video Demonstration Structure
 
 The video will show:
 
-The README (scroll slowly)
+Scrolling through this README
 
 Running the microservice
 
 Running the test program
 
-Programmatic request being made
+Programmatic request
 
-Programmatic JSON response being returned
+JSON response
 
-UML sequence diagram explanation
+UML sequence explanation
 
-Total video time will not exceed 10 minutes across all microservices.
+Total video duration will not exceed 10 minutes across all microservices.
 
-Team Contributions
-
-Faith Nambasa:
+12. Team Contributions
+Faith Nambasa
 
 Implemented Task & Expense Categorizer microservice
 
-Wrote Flask API
+Developed Flask API
 
 Defined communication contract
-
-Wrote README documentation
-
-Geetanjali Adhikari:
-
-Assisted with defining categorization rules
-
-Reviewed API structure and request/response contract
 
 Created test program
 
 Designed UML sequence diagram
 
-Collaborated on microservice planning and testing
+Wrote README documentation
 
-Notes
+Geetanjali Adhikari
 
-This communication contract must remain consistent so that other microservices in the system can reliably interact with this service.
+Assisted in defining categorization rules
+
+Reviewed API structure and request/response format
+
+Collaborated on testing and validation
