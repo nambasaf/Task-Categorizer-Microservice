@@ -8,10 +8,10 @@ This microservice is part of a larger **TODO + Budgeting Application**.
 
 It is responsible for:
 
-- Categorizing expenditures automatically based on description keywords
-- Organizing tasks by category
-- Filtering tasks and expenses by a specified category
-- Returning structured JSON data to the requesting program
+- Categorizing expenditures automatically based on description keywords  
+- Organizing tasks by category  
+- Filtering tasks and expenses by a specified category  
+- Returning structured JSON data to the requesting program  
 
 This microservice communicates via a **REST API** and is independently testable.
 
@@ -21,11 +21,11 @@ This microservice communicates via a **REST API** and is independently testable.
 
 This microservice:
 
-- Accepts tasks and/or expenses as JSON input
-- Automatically categorizes expenses (e.g., Food, Rent, Transportation, Entertainment)
-- Groups tasks and expenses by category
-- Optionally filters results by a specific category
-- Returns organized data in structured JSON format
+- Accepts tasks and/or expenses as JSON input  
+- Automatically categorizes expenses (e.g., Food, Rent, Transportation, Entertainment)  
+- Groups tasks and expenses by category  
+- Optionally filters results by a specific category  
+- Returns organized data in structured JSON format  
 
 This service does **not** depend on other microservices and runs independently.
 
@@ -35,35 +35,61 @@ This service does **not** depend on other microservices and runs independently.
 
 ### 3.1 Requirements
 
-- Python 3.x
-- Flask
+- Python 3.x  
+- Flask  
 
 ### 3.2 Install Dependencies
 
-
+```bash
 pip install -r requirements.txt
+```
 
-3.3 Start the Server
+### 3.3 Start the Server
+
+```bash
 python app.py
-3.4 Server Address
+```
+
+### 3.4 Server Address
 
 The microservice runs on:
 
+```
 http://127.0.0.1:5003
-4. Communication Contract
+```
 
-⚠️ Once defined, this contract must not change.
+---
 
+## 4. Communication Contract
+
+⚠️ **Once defined, this contract must not change.**  
 All teammates must follow this exact format when calling the microservice.
 
-5. How to Programmatically REQUEST Data
-5.1 Endpoint
+---
+
+## 5. How to Programmatically REQUEST Data
+
+### 5.1 Endpoint
+
+```
 POST /organize
-5.2 Full URL
+```
+
+### 5.2 Full URL
+
+```
 http://127.0.0.1:5003/organize
-5.3 Request Headers
+```
+
+### 5.3 Request Headers
+
+```
 Content-Type: application/json
-5.4 Request Body Format (JSON)
+```
+
+### 5.4 Request Body Format (JSON)
+
+```json
 {
   "tasks": [
     {
@@ -79,14 +105,21 @@ Content-Type: application/json
   ],
   "filter_category": "string (optional)"
 }
+```
 
-5.5 Request Parameters
-Parameter	Type	Required	Description
-tasks	JSON array	No	List of task objects
-expenses	JSON array	No	List of expense objects
-filter_category	string	No	Filters results by this category
+### 5.5 Request Parameters
 
-5.6 Example Request (Python)
+| Parameter        | Type        | Required | Description |
+|------------------|------------|----------|-------------|
+| tasks            | JSON array | No       | List of task objects |
+| expenses         | JSON array | No       | List of expense objects |
+| filter_category  | string     | No       | Filters results by this category |
+
+---
+
+### 5.6 Example Request (Python)
+
+```python
 import requests
 
 url = "http://127.0.0.1:5003/organize"
@@ -105,11 +138,17 @@ payload = {
 
 response = requests.post(url, json=payload)
 print(response.json())
-6. How to Programmatically RECEIVE Data
+```
+
+---
+
+## 6. How to Programmatically RECEIVE Data
 
 The microservice returns a JSON response.
 
-6.1 Response Format
+### 6.1 Response Format
+
+```json
 {
   "status": "success",
   "categorized_data": {
@@ -119,11 +158,20 @@ The microservice returns a JSON response.
     }
   }
 }
-6.2 Response Fields
-Field	Type	Description
-status	string	"success" if processed correctly
-categorized_data	JSON object	Grouped tasks and expenses
-6.3 Example Response
+```
+
+### 6.2 Response Fields
+
+| Field             | Type        | Description |
+|------------------|------------|-------------|
+| status           | string     | "success" if request processed correctly |
+| categorized_data | JSON object | Grouped tasks and expenses by category |
+
+---
+
+### 6.3 Example Response
+
+```json
 {
   "status": "success",
   "categorized_data": {
@@ -137,22 +185,31 @@ categorized_data	JSON object	Grouped tasks and expenses
     }
   }
 }
-7. Expense Categorization Rules
+```
+
+---
+
+## 7. Expense Categorization Rules
 
 The microservice uses keyword-based categorization:
 
-Keyword	Category
-walmart	Food
-gas	Transportation
-rent	Rent
-netflix	Entertainment
-other	Other
+| Keyword  | Category        |
+|----------|----------------|
+| walmart  | Food           |
+| gas      | Transportation |
+| rent     | Rent           |
+| netflix  | Entertainment  |
+| other    | Other          |
 
-These rules may be expanded if needed.
+These rules can be expanded if needed.
 
-8. UML Sequence Diagram
-8.1 Interaction Diagram
+---
 
+## 8. UML Sequence Diagram
+
+### 8.1 Interaction Diagram
+
+```
 Test Program              Task Categorizer Microservice
      |                               |
      | POST /organize (JSON)         |
@@ -165,89 +222,83 @@ Test Program              Task Categorizer Microservice
      |<-------------------------------|
      |   Return JSON response        |
      |                               |
+```
 
+### 8.2 Step-by-Step Flow
 
-8.2 Step-by-Step Flow
+1. The test program sends an HTTP POST request to `/organize`.  
+2. The microservice receives and parses JSON input.  
+3. Tasks are grouped by category.  
+4. Expenses are categorized using keyword rules.  
+5. Optional filtering is applied.  
+6. The microservice returns structured JSON.  
+7. The test program receives and prints the response.
 
-The test program sends an HTTP POST request to /organize.
+---
 
-The microservice receives and parses JSON input.
+## 9. Test Program
 
-Tasks are grouped by category.
+A small test program (`test_program.py`) demonstrates:
 
-Expenses are categorized using keyword rules.
-
-Optional filtering is applied.
-
-The microservice returns structured JSON.
-
-The test program receives and prints the response.
-
-9. Test Program
-
-A small test program (test_program.py) demonstrates:
-
-Programmatic request to the microservice
-
-JSON data being sent
-
-JSON response being received
+- Programmatic request to the microservice  
+- JSON data being sent  
+- JSON response being received  
 
 Run:
 
+```bash
 python test_program.py
+```
 
 This confirms the microservice functions independently.
 
-10. Microservice Independence
+---
+
+## 10. Microservice Independence
 
 This microservice:
 
-Runs on its own port (5003)
+- Runs on its own port (5003)  
+- Does not import code from other microservices  
+- Communicates strictly via HTTP  
+- Can be tested independently  
 
-Does not import code from other microservices
+---
 
-Communicates strictly via HTTP
-
-Can be tested independently
-
-11. Video Demonstration Structure
+## 11. Video Demonstration Structure
 
 The video will show:
 
-Scrolling through this README
+1. Scrolling through this README  
+2. Running the microservice  
+3. Running the test program  
+4. Programmatic request being made  
+5. JSON response being returned  
+6. UML sequence explanation  
 
-Running the microservice
+Total video duration will not exceed **10 minutes** across all microservices.
 
-Running the test program
+---
 
-Programmatic request
+## 12. Team Contributions
 
-JSON response
+### Faith Nambasa
 
-UML sequence explanation
+- Implemented Task & Expense Categorizer microservice  
+- Developed Flask API  
+- Defined communication contract  
+- Created test program  
+- Designed UML sequence diagram  
+- Wrote README documentation  
 
-Total video duration will not exceed 10 minutes across all microservices.
+### Geetanjali Adhikari
 
-12. Team Contributions
-Faith Nambasa
+- Assisted in defining categorization rules  
+- Reviewed API structure and request/response format  
+- Collaborated on testing and validation  
 
-Implemented Task & Expense Categorizer microservice
+---
 
-Developed Flask API
+## 13. Notes
 
-Defined communication contract
-
-Created test program
-
-Designed UML sequence diagram
-
-Wrote README documentation
-
-Geetanjali Adhikari
-
-Assisted in defining categorization rules
-
-Reviewed API structure and request/response format
-
-Collaborated on testing and validation
+This communication contract must remain consistent so that other microservices in the system can reliably interact with this service.
